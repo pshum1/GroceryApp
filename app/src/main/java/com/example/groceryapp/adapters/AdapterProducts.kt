@@ -49,7 +49,7 @@ class AdapterProducts(private var context: Context, private var list: ArrayList<
             itemView.tv_product_price.text = products.price.toString()
             var imgLink = "https://rjtmobile.com/grocery/images/${products.image}"
 
-            Picasso.get().load(imgLink).error(R.drawable.ic_launcher_background)
+            Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24)
                 .into(itemView.img_view_product)
 
             itemView.setOnClickListener {

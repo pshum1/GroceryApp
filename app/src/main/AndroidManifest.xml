@@ -13,8 +13,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ProductDetailActivity"></activity>
         <activity android:name=".activities.SubCategoryActivity" />
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

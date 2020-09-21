@@ -1,32 +1,41 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:weightSum="10">
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
 
     <ImageView
+        android:background="@drawable/rounded_corner_img"
         android:id="@+id/img_view_product_detail"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6" />
+        android:layout_height="400dp" />
 
     <TextView
+        android:layout_below="@+id/img_view_product_detail"
+        android:padding="8dp"
+        android:textSize="21sp"
+        android:textColor="@color/colorTextPrimary"
         android:id="@+id/tv_product_detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Product Name" />
 
     <TextView
+        android:layout_below="@id/tv_product_detail_name"
+        android:paddingLeft="8dp"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="18sp"
         android:id="@+id/tv_product_detail_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Price" />
 
     <Button
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/button_product_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add" />
 
-</LinearLayout>
+</RelativeLayout>

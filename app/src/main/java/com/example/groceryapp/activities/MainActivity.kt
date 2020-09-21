@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        img_view_home_image.setImageResource(R.drawable.grocery_landing)
 
         getData()
 

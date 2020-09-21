@@ -45,7 +45,7 @@ class AdapterCategories(private var context: Context, private var list: ArrayLis
             itemView.tv_category_name.text = categoryData.catName
             var imgLink = "https://rjtmobile.com/grocery/images/${categoryData.catImage}"
 
-            Picasso.get().load(imgLink).error(R.drawable.ic_launcher_background).into(itemView.img_view_categories)
+            Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24).into(itemView.img_view_categories)
 
             itemView.setOnClickListener {
                 context.startActivity(Intent(context, SubCategoryActivity::class.java).apply {

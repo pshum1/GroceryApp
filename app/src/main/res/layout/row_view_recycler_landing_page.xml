@@ -2,26 +2,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
     android:weightSum="2">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/img_view_categories"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@drawable/rounded_corner_img" />
 
         <TextView
             android:id="@+id/tv_category_name"
-            android:text="NAME"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_view_categories"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:text="NAME"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18dp" />
 
     </RelativeLayout>
 

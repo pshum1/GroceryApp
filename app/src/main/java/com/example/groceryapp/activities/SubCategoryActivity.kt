@@ -50,7 +50,7 @@ class SubCategoryActivity : AppCompatActivity() {
 
             Log.d("abc", url)
             mList.addAll(subCatResult.data)
-            //Log.d("abc", mList[0].subName)
+
             for(i in 0 until mList.size){
                 subCatAdapter?.addFragment(mList[i].subName, mList[i].subId)
             }
