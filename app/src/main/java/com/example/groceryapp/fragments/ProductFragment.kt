@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.groceryapp.R
 import com.example.groceryapp.adapters.AdapterProducts
+import com.example.groceryapp.app.Endpoints
 import com.example.groceryapp.models.ProductData
 import com.example.groceryapp.models.ProductsResult
 import com.google.gson.Gson
@@ -57,7 +58,7 @@ class ProductFragment : Fragment() {
     }
 
     private fun getData(subId: Int) {
-        var url = "https://grocery-second-app.herokuapp.com/api/products/sub/$subId"
+        var url = Endpoints.getProductBySubId(subId)
 
         var request = StringRequest(Request.Method.GET, url, {
             var gson = Gson()
@@ -69,7 +70,7 @@ class ProductFragment : Fragment() {
 
 
         }, {
-            Log.d("abc", it.message)
+            //Log.d("abc", it.message)
         })
 
         Volley.newRequestQueue(activity!!).add(request)

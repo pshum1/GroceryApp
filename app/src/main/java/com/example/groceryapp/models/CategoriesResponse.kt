@@ -1,5 +1,7 @@
 package com.example.groceryapp.models
 
+import java.io.Serializable
+
 data class CategoriesResult(
     val count: Int,
     val `data`: ArrayList<CategoriesData>,
@@ -17,4 +19,9 @@ data class CategoriesData(
     val slug: String,
     val status: Boolean
 
-)
+): Serializable{
+    companion object{
+        const val KEY_CAT_ID = "catId"
+        const val KEY_CATEGORY = "Category"
+    }
+}

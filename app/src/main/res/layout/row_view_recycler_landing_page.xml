@@ -1,31 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="2">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="15dp"
+    android:background="@color/colorPrimary">
 
-    <RelativeLayout
-        android:layout_width="0dp"
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
         android:padding="8dp">
 
         <ImageView
+
             android:id="@+id/img_view_categories"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/rounded_corner_img" />
 
         <TextView
+            android:layout_gravity="center"
             android:id="@+id/tv_category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_view_categories"
-            android:layout_centerHorizontal="true"
             android:text="NAME"
             android:textColor="@color/colorTextPrimary"
             android:textSize="18dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -21,4 +21,8 @@ data class ProductData(
     val status: Boolean,
     val subId: Int,
     val unit: String
-)
+){
+    companion object {
+        const val KEY_SUB_ID = "subId"
+    }
+}

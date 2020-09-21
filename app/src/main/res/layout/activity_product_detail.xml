@@ -4,6 +4,8 @@
     android:background="@color/colorPrimary"
     android:padding="16dp">
 
+    <include layout="@layout/app_bar"/>
+
     <ImageView
         android:background="@drawable/rounded_corner_img"
         android:id="@+id/img_view_product_detail"

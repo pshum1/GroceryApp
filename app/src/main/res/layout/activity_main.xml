@@ -5,6 +5,8 @@
     android:weightSum="3"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <include layout="@layout/app_bar"/>
+
     <ImageView
         android:background="@color/colorPrimaryDark"
         android:id="@+id/img_view_home_image"

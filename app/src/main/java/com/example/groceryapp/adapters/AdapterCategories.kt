@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groceryapp.R
 import com.example.groceryapp.activities.SubCategoryActivity
+import com.example.groceryapp.app.Config
 import com.example.groceryapp.models.CategoriesData
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row_view_recycler_landing_page.view.*
@@ -43,13 +44,13 @@ class AdapterCategories(private var context: Context, private var list: ArrayLis
 
         fun bind(categoryData: CategoriesData) {
             itemView.tv_category_name.text = categoryData.catName
-            var imgLink = "https://rjtmobile.com/grocery/images/${categoryData.catImage}"
+            var imgLink = Config.IMAGE_URL + categoryData.catImage
 
             Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24).into(itemView.img_view_categories)
 
             itemView.setOnClickListener {
                 context.startActivity(Intent(context, SubCategoryActivity::class.java).apply {
-                    putExtra("CATID", categoryData.catId)
+                    putExtra(CategoriesData.KEY_CATEGORY, categoryData)
                 })
             }
         }
