@@ -1,5 +1,7 @@
 package com.example.groceryapp.models
 
+import java.io.Serializable
+
 data class ProductsResult(
     val count: Int,
     val `data`: ArrayList<ProductData>,
@@ -21,8 +23,18 @@ data class ProductData(
     val status: Boolean,
     val subId: Int,
     val unit: String
-){
+): Serializable{
     companion object {
         const val KEY_SUB_ID = "subId"
+        const val KEY_PRODUCT = "product"
     }
 }
+
+data class Products(
+    val _id: String,
+    val productName: String,
+    val img: String,
+    val mrp: Double,
+    val price: Double,
+    val quantity: Int,
+)

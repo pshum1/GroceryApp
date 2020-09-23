@@ -1,43 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
     <include layout="@layout/app_bar"/>
 
-    <ImageView
-        android:background="@drawable/rounded_corner_img"
-        android:id="@+id/img_view_product_detail"
+    <RelativeLayout
+        android:background="@color/colorPrimary"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:padding="16dp">
 
-    <TextView
-        android:layout_below="@+id/img_view_product_detail"
-        android:padding="8dp"
-        android:textSize="21sp"
-        android:textColor="@color/colorTextPrimary"
-        android:id="@+id/tv_product_detail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product Name" />
+        <include layout="@layout/app_bar" />
 
-    <TextView
-        android:layout_below="@id/tv_product_detail_name"
-        android:paddingLeft="8dp"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="18sp"
-        android:id="@+id/tv_product_detail_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price" />
+        <ImageView
+            android:background="@drawable/rounded_corner_img"
+            android:id="@+id/img_view_product_detail"
+            android:layout_height="400dp"
+            android:layout_width="match_parent" />
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/button_product_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add" />
+        <TextView
+            android:id="@+id/tv_product_detail_name"
+            android:layout_below="@+id/img_view_product_detail"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:padding="8dp"
+            android:text="Product Name"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="21sp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_product_detail_price"
+            android:layout_below="@id/tv_product_detail_name"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingLeft="8dp"
+            android:text="Price"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_product_detail_desc"
+            android:layout_below="@+id/tv_product_detail_price"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:textColor="#CFCCCC"
+            android:textSize="18sp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/button_product_add"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Add" />
+
+    </RelativeLayout>
+
+</LinearLayout>

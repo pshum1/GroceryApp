@@ -26,8 +26,8 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    var mList: ArrayList<CategoriesData> = ArrayList()
-    var adapterCategories: AdapterCategories? = null
+    private var mList: ArrayList<CategoriesData> = ArrayList()
+    private var adapterCategories: AdapterCategories? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         init()
     }
 
+    //SETUP MENU AND TOOLBAR
     private fun setupToolbar(){
         var toolbar = toolbar
         toolbar.title = "Grocery App"
@@ -49,13 +50,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.action_cart -> Toast.makeText(applicationContext, "Cart Action", Toast.LENGTH_SHORT).show()
+            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
             R.id.action_profile -> Toast.makeText(applicationContext, "Profile Action", Toast.LENGTH_SHORT).show()
             R.id.action_setting -> Toast.makeText(applicationContext, "Setting Action", Toast.LENGTH_SHORT).show()
         }
         return true
     }
 
+    // INITIALIZE
     private fun init() {
         setupToolbar()
         img_view_home_image.setImageResource(R.drawable.grocery_landing)
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         recycler_view_landing_page.adapter = adapterCategories
     }
 
+    //GET DATA
     private fun getData(){
 
         var request = StringRequest(Request.Method.GET, Endpoints.getCategory(), {

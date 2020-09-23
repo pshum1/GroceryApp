@@ -1,5 +1,6 @@
 package com.example.groceryapp.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +24,6 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_product.*
 
 class SubCategoryActivity : AppCompatActivity() {
-
 
     var category: CategoriesData? = null
     var mList: ArrayList<SubCatData> = ArrayList()
@@ -65,7 +65,7 @@ class SubCategoryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             android.R.id.home -> finish()
-            R.id.action_cart -> Toast.makeText(applicationContext, "Cart Action", Toast.LENGTH_SHORT).show()
+            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
             R.id.action_profile -> Toast.makeText(applicationContext, "Profile Action", Toast.LENGTH_SHORT).show()
             R.id.action_setting -> Toast.makeText(applicationContext, "Setting Action", Toast.LENGTH_SHORT).show()
         }

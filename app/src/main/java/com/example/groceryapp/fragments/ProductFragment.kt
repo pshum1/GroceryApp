@@ -25,6 +25,8 @@ private const val ARG_PARAM2 = "param2"
 
 
 class ProductFragment : Fragment() {
+
+    //DECLARE AND INITIALIZE VARIABLES
     private var tabTitle: String? = null
     private var subId: Int? = null
 
@@ -46,8 +48,10 @@ class ProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.fragment_product, container, false)
+
         view.progress_bar_product.visibility = View.GONE
         init(view)
+
         return view
     }
 
@@ -61,9 +65,8 @@ class ProductFragment : Fragment() {
         var url = Endpoints.getProductBySubId(subId)
 
         var request = StringRequest(Request.Method.GET, url, {
-            var gson = Gson()
-            var productsResult = gson.fromJson(it, ProductsResult::class.java)
-
+            //var gson = Gson()
+            var productsResult = Gson().fromJson(it, ProductsResult::class.java)
 
             mList.addAll(productsResult.data)
             adapterProducts?.setData()

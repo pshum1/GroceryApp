@@ -15,21 +15,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/img_view_product"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="16dp"
         android:text="Product Name"
         android:layout_marginBottom="8dp"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="21sp" />
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_product_mrp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/img_view_product"
+        android:layout_below="@id/tv_product_name"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_product_name"
+        android:layout_below="@+id/tv_product_mrp"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/img_view_product"
         android:text="$"
+        android:textStyle="bold"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
