@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="3dp">
 
     <ImageView
         android:id="@+id/img_view_product"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:background="@drawable/rounded_corner_img" />
 
     <TextView
@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:layout_toRightOf="@+id/img_view_product"
         android:text="Product Name"
@@ -32,6 +31,36 @@
         android:textColor="@color/colorTextPrimary"
         android:textSize="14sp" />
 
+    <LinearLayout
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/img_view_product"
+        android:layout_toRightOf="@id/img_view_product"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/button_quantity_subtract_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_remove_24"/>
+
+        <TextView
+            android:id="@+id/tv_cart_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/button_quantity_add_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_add_24"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_cart_price"
         android:layout_width="wrap_content"
@@ -42,26 +71,15 @@
         android:text="$"
         android:textColor="@color/colorTextPrimary"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold|italic" />
 
-    <TextView
-        android:id="@+id/tv_cart_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_cart_name"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="8dp"
-        android:text="Quant"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="14sp" />
 
     <ImageButton
         android:id="@+id/button_delete_cart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_cart_quantity"
+        android:layout_alignBottom="@+id/img_view_product"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
         android:src="@drawable/ic_baseline_delete_24" />
 
 </RelativeLayout>

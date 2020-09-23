@@ -1,21 +1,25 @@
 package com.example.groceryapp.adapters
 
 import android.content.Context
-import android.graphics.Paint
+import android.content.Intent
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groceryapp.R
+import com.example.groceryapp.activities.AddressActivity
 import com.example.groceryapp.app.Config
 import com.example.groceryapp.databases.DBHelper
 import com.example.groceryapp.models.Products
+import com.example.groceryapp.models.Totals
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_shopping_cart.view.*
 import kotlinx.android.synthetic.main.row_view_recycler_cart.view.*
 
-class AdapterCart(private var context: Context, private var list: ArrayList<Products>): RecyclerView.Adapter<AdapterCart.ViewHolder>() {
+class AdapterCart(private var context: Context, private var list: ArrayList<Products>): RecyclerView.Adapter<AdapterCart.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view = LayoutInflater.from(context).inflate(
@@ -36,6 +40,8 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
         return list.size
     }
 
+
+
     fun setData(l: ArrayList<Products>) {
         list = l
         notifyDataSetChanged()
@@ -43,11 +49,20 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(products: Products, position: Int){
+
+
+            var quantity = products.quantity
+            Log.d("quantity", quantity.toString())
+
             //SET VIEWS WITH DATA
             itemView.tv_cart_name.text = products.productName
-
             itemView.tv_cart_price.text = "$${products.price}"
-            itemView.tv_cart_quantity.text = "Qt: ${products.quantity.toString()}"
+            itemView.tv_cart_quantity.text = quantity.toString()
+
+//            itemView.tv_subtotal_amount.text = totals.subtotal.toString()
+//            itemView.tv_discount_amount.text = totals.discount.toString()
+//            itemView.tv_total_amount.text = totals.total.toString()
+
 
             //STRIKETHROUGH FOR MRP
             val str = "$${products.mrp}"
@@ -66,6 +81,12 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
                 list.removeAt(position)
                 setData(list)
             }
+
+            itemView.button_quantity_add_cart.setOnClickListener{
+
+            }
+
+
         }
     }
 

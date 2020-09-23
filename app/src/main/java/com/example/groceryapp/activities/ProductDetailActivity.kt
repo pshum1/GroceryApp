@@ -3,6 +3,7 @@ package com.example.groceryapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -34,7 +35,7 @@ class ProductDetailActivity : AppCompatActivity() {
         init(products)
     }
 
-    private fun setupToolbar(){
+    private fun setupToolbar() {
         var toolbar = toolbar
         toolbar.title = "Grocery App"
         setSupportActionBar(toolbar)
@@ -46,10 +47,18 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
-            R.id.action_profile -> Toast.makeText(applicationContext, "Profile Action", Toast.LENGTH_SHORT).show()
-            R.id.action_setting -> Toast.makeText(applicationContext, "Setting Action", Toast.LENGTH_SHORT).show()
+            R.id.action_profile -> Toast.makeText(
+                applicationContext,
+                "Profile Action",
+                Toast.LENGTH_SHORT
+            ).show()
+            R.id.action_setting -> Toast.makeText(
+                applicationContext,
+                "Setting Action",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         return true
     }
@@ -65,10 +74,40 @@ class ProductDetailActivity : AppCompatActivity() {
         Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24)
             .into(img_view_product_detail)
 
-        button_product_add.setOnClickListener{
-            dbHelper.addProduct(Products(products._id, products.productName, products.image, products.mrp, products.price, products.quantity))
+        //DECLARE AND INITIALIZE QUANTITY
+        var quantity = tv_product_detail_quantity.text.toString().toInt()
+
+        button_product_add.setOnClickListener {
+            var productsDB = Products(
+                products._id,
+                products.productName,
+                products.image,
+                products.mrp,
+                products.price,
+                quantity)
+
+            Log.d("quantity", productsDB.quantity.toString() + " detail")
+            if(dbHelper.checkIfRecordExists(productsDB._id)){
+                dbHelper.updateQuantityProduct(productsDB, quantity)
+            }else {
+                dbHelper.addProduct(productsDB)
+            }
             startActivity(Intent(this, ShoppingCartActivity::class.java))
             finish()
         }
+
+        button_quantity_add.setOnClickListener {
+
+            quantity++
+            tv_product_detail_quantity.text = quantity.toString()
+        }
+
+        button_quantity_subtract.setOnClickListener {
+            if (quantity > 1) {
+                quantity--
+                tv_product_detail_quantity.text = quantity.toString()
+            }
+        }
+
     }
 }

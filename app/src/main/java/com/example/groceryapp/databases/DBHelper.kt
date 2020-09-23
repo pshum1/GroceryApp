@@ -2,6 +2,7 @@ package com.example.groceryapp.databases
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -49,6 +50,40 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         contentValues.put(COLUMN_QUANTITY, products.quantity)
 
         dbHelper.insert(TABLE_NAME, null, contentValues)
+    }
+
+    fun updateQuantityProduct(products: Products, quantity: Int){
+        val whereClause = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(products._id)
+
+        var newQuantity = products.quantity + quantity
+
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_QUANTITY, newQuantity)
+
+        dbHelper.update(TABLE_NAME, contentValues, whereClause, whereArgs)
+    }
+
+    fun checkIfRecordExists(id: String): Boolean{
+        val columns = arrayOf(COLUMN_ID)
+
+        Log.d("recordExistence", "It reached record check")
+        var cursor= dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+
+        if(cursor != null && cursor.moveToFirst()) {
+            do {
+                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+                if (idDB == id) {
+                    Log.d("recordExistence", true.toString())
+                    cursor.close()
+                    return true
+                }
+            } while (cursor.moveToNext())
+        }
+        Log.d("recordExistence", false.toString())
+        cursor.close()
+        return false
+
     }
 
     fun deleteProduct(id: String){

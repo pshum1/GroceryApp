@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             adapterCategories?.setData()
             progress_bar_landing.visibility = View.GONE
         }, {
-            Log.d("abc", it.message)
+            //Log.d("abc", it.message)
         })
 
         Volley.newRequestQueue(this).add(request)

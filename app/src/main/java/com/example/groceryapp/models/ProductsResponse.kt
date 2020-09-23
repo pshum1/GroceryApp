@@ -38,3 +38,9 @@ data class Products(
     val price: Double,
     val quantity: Int,
 )
+
+data class Totals(
+    val subtotal: Double,
+    val discount: Double,
+    val total: Double,
+)
