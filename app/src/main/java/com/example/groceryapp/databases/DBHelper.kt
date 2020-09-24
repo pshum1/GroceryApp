@@ -52,11 +52,15 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         dbHelper.insert(TABLE_NAME, null, contentValues)
     }
 
-    fun updateQuantityProduct(products: Products, quantity: Int){
+    fun updateQuantityProduct(products: Products, sign: Boolean){
         val whereClause = "$COLUMN_ID = ?"
         val whereArgs = arrayOf(products._id)
+        var newQuantity = products.quantity
 
-        var newQuantity = products.quantity + quantity
+        if(sign)
+            newQuantity++
+        else
+            newQuantity--
 
         val contentValues = ContentValues()
         contentValues.put(COLUMN_QUANTITY, newQuantity)
@@ -84,6 +88,36 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         cursor.close()
         return false
 
+    }
+
+    fun getRecordById(id: String): Products?{
+        var columns = arrayOf(
+            COLUMN_ID,
+            COLUMN_NAME,
+            COLUMN_IMAGE,
+            COLUMN_MRP,
+            COLUMN_PRICE,
+            COLUMN_QUANTITY,
+        )
+        var cursor= dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+
+        if(cursor != null && cursor.moveToFirst()) {
+            do {
+                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+                if (idDB == id) {
+                    var id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+                    var name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+                    var img = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE))
+                    var mrp = cursor.getDouble(cursor.getColumnIndex(COLUMN_MRP))
+                    var price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE))
+                    var quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
+
+                    return Products(id,name, img, mrp, price, quantity)
+                }
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return null
     }
 
     fun deleteProduct(id: String){

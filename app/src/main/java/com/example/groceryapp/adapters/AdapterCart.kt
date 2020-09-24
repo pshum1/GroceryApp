@@ -50,6 +50,7 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(products: Products, position: Int){
 
+            var dbHelper = DBHelper(context)
 
             var quantity = products.quantity
             Log.d("quantity", quantity.toString())
@@ -58,11 +59,6 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
             itemView.tv_cart_name.text = products.productName
             itemView.tv_cart_price.text = "$${products.price}"
             itemView.tv_cart_quantity.text = quantity.toString()
-
-//            itemView.tv_subtotal_amount.text = totals.subtotal.toString()
-//            itemView.tv_discount_amount.text = totals.discount.toString()
-//            itemView.tv_total_amount.text = totals.total.toString()
-
 
             //STRIKETHROUGH FOR MRP
             val str = "$${products.mrp}"
@@ -74,16 +70,33 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
 
             Picasso.get().load(imgURL).error(R.drawable.ic_baseline_broken_image_24).into(itemView.img_view_product)
 
-            //ONCLICK FUNCTIONS
-            itemView.button_delete_cart.setOnClickListener {
-                var dbHelper = DBHelper(context)
+            fun deleteItem(){
                 dbHelper.deleteProduct(products._id)
                 list.removeAt(position)
                 setData(list)
             }
 
-            itemView.button_quantity_add_cart.setOnClickListener{
+            //ONCLICK FUNCTIONS
+            itemView.button_delete_cart.setOnClickListener {
+                deleteItem()
+            }
 
+            itemView.button_quantity_add_cart.setOnClickListener{
+                dbHelper.updateQuantityProduct(products, true)
+                quantity++
+                itemView.tv_cart_quantity.text = quantity.toString()
+            }
+
+
+            itemView.button_quantity_subtract_cart.setOnClickListener {
+                if(quantity > 1){
+                    dbHelper.updateQuantityProduct(products, false)
+                    quantity--
+                    itemView.tv_cart_quantity.text = quantity.toString()
+                } else {
+                    deleteItem()
+
+                }
             }
 
 

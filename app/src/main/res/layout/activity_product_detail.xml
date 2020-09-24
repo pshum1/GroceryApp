@@ -46,20 +46,23 @@
         <TextView
             android:id="@+id/tv_product_detail_desc"
             android:layout_below="@+id/tv_product_detail_price"
+            android:layout_above="@id/tv_in_cart"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:textAlignment="center"
-            android:textColor="#CFCCCC"
+            android:textColor="@color/colorTextSecondary"
             android:textSize="18sp"
+            android:scrollbars="vertical"
             android:textStyle="italic" />
 
         <LinearLayout
+            android:id="@+id/layout_quantity"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:orientation="horizontal">
 
             <ImageButton
@@ -88,6 +91,18 @@
                 android:src="@drawable/ic_baseline_add_24"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_in_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In Cart:"
+            android:textStyle="bold|italic"
+            android:textColor="@color/colorAccent"
+            android:layout_alignBottom="@+id/layout_quantity"
+            android:layout_toLeftOf="@id/layout_quantity"
+            android:layout_margin="6dp"
+            android:textSize="21sp" />
 
         <Button
             android:id="@+id/button_product_add"

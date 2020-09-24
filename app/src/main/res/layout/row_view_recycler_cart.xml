@@ -18,7 +18,7 @@
         android:layout_toRightOf="@+id/img_view_product"
         android:text="Product Name"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_cart_mrp"
@@ -32,7 +32,7 @@
         android:textSize="14sp" />
 
     <LinearLayout
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/img_view_product"

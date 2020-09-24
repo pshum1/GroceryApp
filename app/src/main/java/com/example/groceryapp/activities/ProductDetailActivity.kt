@@ -3,9 +3,11 @@ package com.example.groceryapp.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.example.groceryapp.R
 import com.example.groceryapp.app.Config
@@ -48,7 +50,10 @@ class ProductDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
+            R.id.action_cart -> {
+                startActivity(Intent(this, ShoppingCartActivity::class.java))
+                finish()
+            }
             R.id.action_profile -> Toast.makeText(
                 applicationContext,
                 "Profile Action",
@@ -65,6 +70,20 @@ class ProductDetailActivity : AppCompatActivity() {
 
     private fun init(products: ProductData) {
         setupToolbar()
+
+        //CHECK IF ITEM ALREADY EXISTS
+        if(dbHelper.checkIfRecordExists(products._id)){
+            button_product_add.visibility = View.GONE
+
+            var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
+            tv_product_detail_quantity.text = productsDB?.quantity.toString()
+
+        }
+        else {
+            layout_quantity.visibility = View.GONE
+            tv_in_cart.visibility = View.GONE
+        }
+
         //SET DATA INTO VIEWS
         tv_product_detail_name.text = products.productName
         tv_product_detail_price.text = "$${products.price}"
@@ -74,9 +93,9 @@ class ProductDetailActivity : AppCompatActivity() {
         Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24)
             .into(img_view_product_detail)
 
-        //DECLARE AND INITIALIZE QUANTITY
-        var quantity = tv_product_detail_quantity.text.toString().toInt()
 
+
+        // ADD TO CART BUTTON
         button_product_add.setOnClickListener {
             var productsDB = Products(
                 products._id,
@@ -84,28 +103,37 @@ class ProductDetailActivity : AppCompatActivity() {
                 products.image,
                 products.mrp,
                 products.price,
-                quantity)
-
-            Log.d("quantity", productsDB.quantity.toString() + " detail")
-            if(dbHelper.checkIfRecordExists(productsDB._id)){
-                dbHelper.updateQuantityProduct(productsDB, quantity)
-            }else {
-                dbHelper.addProduct(productsDB)
-            }
-            startActivity(Intent(this, ShoppingCartActivity::class.java))
-            finish()
+                1,
+            )
+            tv_product_detail_quantity.text = "1"
+            dbHelper.addProduct(productsDB)
+            button_product_add.visibility = View.GONE
+            layout_quantity.visibility = View.VISIBLE
+            tv_in_cart.visibility = View.VISIBLE
         }
 
+        //LINEAR LAYOUT TO ADD OR REMOVE ITEMS
         button_quantity_add.setOnClickListener {
-
-            quantity++
-            tv_product_detail_quantity.text = quantity.toString()
+            var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
+            if(productsDB != null) {
+                dbHelper.updateQuantityProduct(productsDB, true)
+                tv_product_detail_quantity.text =  "${tv_product_detail_quantity.text.toString().toInt()+1}"
+            }
         }
 
         button_quantity_subtract.setOnClickListener {
+            var quantity = tv_product_detail_quantity.text.toString().toInt()
             if (quantity > 1) {
-                quantity--
-                tv_product_detail_quantity.text = quantity.toString()
+                var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
+                if(productsDB != null) {
+                    dbHelper.updateQuantityProduct(productsDB, false)
+                    tv_product_detail_quantity.text =  "${tv_product_detail_quantity.text.toString().toInt()-1}"
+                }
+            } else {
+                dbHelper.deleteProduct(products._id)
+                layout_quantity.visibility = View.GONE
+                tv_in_cart.visibility = View.GONE
+                button_product_add.visibility = View.VISIBLE
             }
         }
 

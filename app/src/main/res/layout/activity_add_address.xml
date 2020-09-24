@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/app_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/RelativeLayoutTextView"
+                android:text="Bill To" />
+
+            <EditText
+                android:id="@+id/et_address_name"
+                style="@style/EditTextStyle"
+                android:hint="Name" />
+            <EditText
+                android:id="@+id/et_address_number"
+                style="@style/EditTextStyle"
+                android:hint="Mobile Number" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                style="@style/RelativeLayoutTextView"
+                android:text="Delivery Address" />
+
+            <EditText
+                android:id="@+id/et_address_house_number"
+                style="@style/EditTextStyle"
+                android:hint="House Number and Building" />
+
+            <EditText
+                android:id="@+id/et_address_street_name"
+                style="@style/EditTextStyle"
+                android:hint="Street Name" />
+
+            <EditText
+                android:id="@+id/et_address_location"
+                style="@style/EditTextStyle"
+                android:hint="Location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <EditText
+                    android:id="@+id/et_address_pincode"
+                    style="@style/EditTextStyle"
+                    android:layout_weight="1"
+                    android:hint="Zip Code" />
+
+                <EditText
+                    android:id="@+id/et_address_city"
+                    style="@style/EditTextStyle"
+                    android:layout_weight="1"
+                    android:hint="City" />
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/button_save_address"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorTextPrimary"
+            android:text="Save Address"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
