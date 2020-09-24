@@ -66,8 +66,6 @@ class SubCategoryActivity : AppCompatActivity() {
         when(item.itemId){
             android.R.id.home -> finish()
             R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
-            R.id.action_profile -> Toast.makeText(applicationContext, "Profile Action", Toast.LENGTH_SHORT).show()
-            R.id.action_setting -> Toast.makeText(applicationContext, "Setting Action", Toast.LENGTH_SHORT).show()
         }
         return true
     }
