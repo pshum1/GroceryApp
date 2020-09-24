@@ -82,7 +82,10 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
             }
 
             itemView.button_quantity_add_cart.setOnClickListener{
-                dbHelper.updateQuantityProduct(products, true)
+                var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
+                if(productsDB != null) {
+                    dbHelper.updateQuantityProduct(productsDB, true)
+                }
                 quantity++
                 itemView.tv_cart_quantity.text = quantity.toString()
             }
@@ -90,7 +93,9 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
 
             itemView.button_quantity_subtract_cart.setOnClickListener {
                 if(quantity > 1){
-                    dbHelper.updateQuantityProduct(products, false)
+                    var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
+                    if(productsDB != null)
+                        dbHelper.updateQuantityProduct(productsDB, false)
                     quantity--
                     itemView.tv_cart_quantity.text = quantity.toString()
                 } else {

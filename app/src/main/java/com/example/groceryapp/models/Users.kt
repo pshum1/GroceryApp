@@ -16,3 +16,8 @@ data class User(
 ) {
 
 }
+
+data class DumUser(
+    val name: String,
+    val email: String,
+)

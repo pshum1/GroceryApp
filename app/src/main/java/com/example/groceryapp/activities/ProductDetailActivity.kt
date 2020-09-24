@@ -54,16 +54,6 @@ class ProductDetailActivity : AppCompatActivity() {
                 startActivity(Intent(this, ShoppingCartActivity::class.java))
                 finish()
             }
-            R.id.action_profile -> Toast.makeText(
-                applicationContext,
-                "Profile Action",
-                Toast.LENGTH_SHORT
-            ).show()
-            R.id.action_setting -> Toast.makeText(
-                applicationContext,
-                "Setting Action",
-                Toast.LENGTH_SHORT
-            ).show()
         }
         return true
     }

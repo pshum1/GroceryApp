@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:paddingTop="41dp"
+    android:paddingLeft="16dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        style="@style/RelativeLayoutTextView"
+        android:text="Hello," />
+
+    <TextView
+        android:id="@+id/tv_header_name"
+        style="@style/RelativeLayoutTextView"
+        android:text="Pierre"
+        android:textSize="21dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_header_email"
+        style="@style/RelativeLayoutTextView"
+        android:text="pierre@gmail.com" />
+
+</LinearLayout>
