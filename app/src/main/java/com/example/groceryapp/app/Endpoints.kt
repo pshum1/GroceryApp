@@ -10,6 +10,7 @@ class Endpoints {
         private const val URL_SUB_CATEGORY = "subcategory/"
         private const val URL_PRODUCT_BY_SUB = "products/sub/"
         private const val URL_ADDRESS = "address"
+        private const val URL_ORDER = "orders"
 
         fun getLogin(): String{
             return Config.BASE_URL + URL_LOGIN
@@ -33,6 +34,10 @@ class Endpoints {
 
         fun postAddress(): String{
             return Config.BASE_URL + URL_ADDRESS
+        }
+
+        fun getOrder(): String{
+            return Config.BASE_URL + URL_ORDER
         }
     }
 }

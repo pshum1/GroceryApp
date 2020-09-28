@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.groceryapp.models.OrderSummary
 import com.example.groceryapp.models.Products
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -70,19 +71,21 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
     fun checkIfRecordExists(id: String): Boolean{
         val columns = arrayOf(COLUMN_ID)
+        val whereArgs = arrayOf(id)
+        val whereClause = "$COLUMN_ID = ?"
 
         Log.d("recordExistence", "It reached record check")
-        var cursor= dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+        var cursor= dbHelper.query(TABLE_NAME, columns, whereClause, whereArgs, null, null, null)
 
         if(cursor != null && cursor.moveToFirst()) {
-            do {
-                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
-                if (idDB == id) {
+//            do {
+//                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+//                if (idDB == id) {
                     Log.d("recordExistence", true.toString())
                     cursor.close()
                     return true
-                }
-            } while (cursor.moveToNext())
+//                }
+//            } while (cursor.moveToNext())
         }
         Log.d("recordExistence", false.toString())
         cursor.close()
@@ -90,7 +93,39 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
     }
 
-    fun getRecordById(id: String): Products?{
+//    fun getRecordById(id: String): Products?{ NOT EFFICIENT
+//        var columns = arrayOf(
+//            COLUMN_ID,
+//            COLUMN_NAME,
+//            COLUMN_IMAGE,
+//            COLUMN_MRP,
+//            COLUMN_PRICE,
+//            COLUMN_QUANTITY,
+//        )
+//        var cursor= dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+//
+//        if(cursor != null && cursor.moveToFirst()) {
+//            do {
+//                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+//                if (idDB == id) {
+//                    var id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+//                    var name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+//                    var img = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE))
+//                    var mrp = cursor.getDouble(cursor.getColumnIndex(COLUMN_MRP))
+//                    var price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE))
+//                    var quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
+//
+//                    return Products(id,name, img, mrp, price, quantity)
+//                }
+//            } while (cursor.moveToNext())
+//        }
+//        cursor.close()
+//        return null
+//    }
+
+    fun getRecord(id: String): Products {
+        val whereArgs = arrayOf(id)
+        val whereClause = "$COLUMN_ID = ?"
         var columns = arrayOf(
             COLUMN_ID,
             COLUMN_NAME,
@@ -99,26 +134,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
             COLUMN_PRICE,
             COLUMN_QUANTITY,
         )
-        var cursor= dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+        var cursor= dbHelper.query(TABLE_NAME, columns, whereClause, whereArgs, null, null, null)
+        cursor.moveToFirst()
 
-        if(cursor != null && cursor.moveToFirst()) {
-            do {
-                var idDB = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
-                if (idDB == id) {
-                    var id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
-                    var name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
-                    var img = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE))
-                    var mrp = cursor.getDouble(cursor.getColumnIndex(COLUMN_MRP))
-                    var price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE))
-                    var quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
-
-                    return Products(id,name, img, mrp, price, quantity)
-                }
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        return null
+        var id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+        var name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
+        var img = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE))
+        var mrp = cursor.getDouble(cursor.getColumnIndex(COLUMN_MRP))
+        var price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE))
+        var quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
+        return Products(id, name, img, mrp, price, quantity)
     }
+
 
     fun deleteProduct(id: String){
         var whereClause = "$COLUMN_ID = ?"
@@ -154,6 +181,37 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         }
         cursor.close()
         return productList
+    }
+
+    fun getOrderSummary(): OrderSummary{
+        var mrp = 0.0
+        var total = 0.0
+        var quantity = 0
+
+        var columns = arrayOf(
+            COLUMN_MRP,
+            COLUMN_PRICE,
+            COLUMN_QUANTITY,
+        )
+
+        var cursor = dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+        if(cursor != null && cursor.moveToFirst()){
+            do {
+                quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
+
+                mrp += (cursor.getDouble(cursor.getColumnIndex(COLUMN_MRP)) * quantity)
+                total += (cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE)) * quantity)
+
+            } while(cursor.moveToNext())
+        }
+        cursor.close()
+        var discount = mrp-total
+        return OrderSummary(mrp,discount,total,0.0)
+    }
+
+    //DELETES ALL RECORDS FROM DB
+    fun clearDB() {
+        dbHelper.execSQL("delete from $TABLE_NAME");
     }
 
 

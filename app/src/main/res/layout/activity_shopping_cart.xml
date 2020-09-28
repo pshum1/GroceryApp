@@ -101,7 +101,9 @@
     </RelativeLayout>
 
     <Button
-        android:background="@color/colorAccent"
+        android:textSize="16dp"
+        android:background="@drawable/background_address_item"
+        android:backgroundTint="@color/colorAccent"
         android:textColor="@color/colorTextPrimary"
         android:id="@+id/button_checkout"
         android:layout_width="match_parent"

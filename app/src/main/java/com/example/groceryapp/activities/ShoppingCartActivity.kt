@@ -45,32 +45,37 @@ class ShoppingCartActivity : AppCompatActivity() {
         } else {
             tv_no_cart_items.visibility = View.GONE
         }
-        Toast.makeText(applicationContext, "All Products Retrieved", Toast.LENGTH_SHORT).show()
-        var totals = calculateTotals(mList)
-
-        tv_subtotal_amount.text = """${"$"}${totals.subtotal}"""
-        tv_discount_amount.text = "-$" + totals.discount.toString()
-        tv_total_amount.text = "$" + totals.total.toString()
+        //Toast.makeText(applicationContext, "All Products Retrieved", Toast.LENGTH_SHORT).show()
+        calcAndSetTotals()
 
         adapterCart = AdapterCart(this, mList)
         recycler_view_cart.layoutManager = LinearLayoutManager(this)
         recycler_view_cart.adapter = adapterCart
 
         button_checkout.setOnClickListener{
-            startActivity(Intent(this, AddressActivity::class.java))
+            if(mList.isNullOrEmpty())
+                Toast.makeText(applicationContext, "Please add item to cart!", Toast.LENGTH_SHORT).show()
+            else
+                startActivity(Intent(this, AddressActivity::class.java))
         }
+
+        val orderSummary = dbHelper.getOrderSummary()
+//        Toast.makeText(this, "mrp: ${orderSummary.mrp}, discount: ${orderSummary.discount}, total: ${orderSummary.total}", Toast.LENGTH_LONG).show()
     }
 
-    private fun calculateTotals(list: ArrayList<Products>): Totals {
+    fun calcAndSetTotals() {
         var subtotal = 0.0
         var discount = 0.0
         var total: Double
-        for(i in 0 until list.size){
-            subtotal += list[i].mrp * list[i].quantity
-            discount += (list[i].mrp - list[i].price) * list[i].quantity
+        for(i in 0 until mList.size){
+            subtotal += mList[i].mrp * mList[i].quantity
+            discount += (mList[i].mrp - mList[i].price) * mList[i].quantity
         }
         total = subtotal-discount
+
+        tv_subtotal_amount.text = "$$subtotal"
+        tv_discount_amount.text = "-$$discount"
+        tv_total_amount.text = "$$total"
         Log.d("totals", "$subtotal sub $discount dis $total total")
-        return Totals(subtotal,discount, total)
     }
 }

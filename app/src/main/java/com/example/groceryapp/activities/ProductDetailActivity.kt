@@ -62,14 +62,13 @@ class ProductDetailActivity : AppCompatActivity() {
         setupToolbar()
 
         //CHECK IF ITEM ALREADY EXISTS
-        if(dbHelper.checkIfRecordExists(products._id)){
+        if (dbHelper.checkIfRecordExists(products._id)) {
             button_product_add.visibility = View.GONE
 
-            var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
-            tv_product_detail_quantity.text = productsDB?.quantity.toString()
+            var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+            tv_product_detail_quantity.text = productsDB.quantity.toString()
 
-        }
-        else {
+        } else {
             layout_quantity.visibility = View.GONE
             tv_in_cart.visibility = View.GONE
         }
@@ -83,6 +82,8 @@ class ProductDetailActivity : AppCompatActivity() {
         Picasso.get().load(imgLink).error(R.drawable.ic_baseline_broken_image_24)
             .into(img_view_product_detail)
 
+//        var record: Products = dbHelper.getRecord(products._id)
+//        Log.d("RECORDCHECK", record.productName)
 
 
         // ADD TO CART BUTTON
@@ -104,21 +105,20 @@ class ProductDetailActivity : AppCompatActivity() {
 
         //LINEAR LAYOUT TO ADD OR REMOVE ITEMS
         button_quantity_add.setOnClickListener {
-            var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
-            if(productsDB != null) {
-                dbHelper.updateQuantityProduct(productsDB, true)
-                tv_product_detail_quantity.text =  "${tv_product_detail_quantity.text.toString().toInt()+1}"
-            }
+            var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+            dbHelper.updateQuantityProduct(productsDB, true)
+            tv_product_detail_quantity.text =
+                "${tv_product_detail_quantity.text.toString().toInt() + 1}"
         }
 
         button_quantity_subtract.setOnClickListener {
             var quantity = tv_product_detail_quantity.text.toString().toInt()
             if (quantity > 1) {
-                var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
-                if(productsDB != null) {
-                    dbHelper.updateQuantityProduct(productsDB, false)
-                    tv_product_detail_quantity.text =  "${tv_product_detail_quantity.text.toString().toInt()-1}"
-                }
+                var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+                dbHelper.updateQuantityProduct(productsDB, false)
+                tv_product_detail_quantity.text =
+                    "${tv_product_detail_quantity.text.toString().toInt() - 1}"
+
             } else {
                 dbHelper.deleteProduct(products._id)
                 layout_quantity.visibility = View.GONE

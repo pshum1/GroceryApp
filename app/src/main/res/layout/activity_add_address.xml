@@ -28,6 +28,7 @@
                 android:id="@+id/et_address_name"
                 style="@style/EditTextStyle"
                 android:hint="Name" />
+
             <EditText
                 android:id="@+id/et_address_number"
                 style="@style/EditTextStyle"
@@ -45,6 +46,7 @@
 
             <TextView
                 style="@style/RelativeLayoutTextView"
+                android:layout_marginBottom="16dp"
                 android:text="Delivery Address" />
 
             <EditText
@@ -57,14 +59,11 @@
                 style="@style/EditTextStyle"
                 android:hint="Street Name" />
 
-            <EditText
-                android:id="@+id/et_address_location"
-                style="@style/EditTextStyle"
-                android:hint="Location" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -72,7 +71,8 @@
                     android:id="@+id/et_address_pincode"
                     style="@style/EditTextStyle"
                     android:layout_weight="1"
-                    android:hint="Zip Code" />
+                    android:hint="Pin Code"
+                    android:inputType="number" />
 
                 <EditText
                     android:id="@+id/et_address_city"
@@ -82,19 +82,51 @@
 
             </LinearLayout>
 
+            <RadioGroup
+                android:id="@+id/radio_group_add_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/rg_home"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
+                <RadioButton
+                    android:id="@+id/rg_home"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Home"
+                    android:textColor="@color/colorTextPrimary" />
 
+                <RadioButton
+                    android:id="@+id/rg_office"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Office"
+                    android:textColor="@color/colorTextPrimary" />
+
+                <RadioButton
+                    android:id="@+id/rg_other"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Other"
+                    android:textColor="@color/colorTextPrimary" />
+            </RadioGroup>
 
 
         </LinearLayout>
+
         <Button
             android:id="@+id/button_save_address"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorTextPrimary"
-            android:text="Save Address"/>
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_rounded"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Save Address"
+            android:textColor="@color/colorTextPrimary" />
 
     </LinearLayout>
 

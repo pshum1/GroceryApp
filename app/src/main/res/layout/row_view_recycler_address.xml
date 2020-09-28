@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_address_item"
+    android:layout_marginBottom="8dp"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_house_no_street_name"
+        style="@style/RelativeLayoutTextView"
+        android:text="124, Sample Street Address" />
+
+    <TextView
+        android:id="@+id/tv_address_city_pincode"
+        style="@style/RelativeLayoutTextView" />
+
+    <TextView
+        android:id="@+id/tv_address_type"
+        style="@style/RelativeLayoutTextView" />
+
+
+</LinearLayout>

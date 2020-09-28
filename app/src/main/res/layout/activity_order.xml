@@ -1,0 +1,158 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <include layout="@layout/app_bar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_total_text_order"
+            style="@style/RelativeLayoutTextView"
+            android:layout_above="@id/tv_order_total"
+            android:layout_centerHorizontal="true"
+            android:text="Total:"
+
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/tv_order_total"
+            style="@style/RelativeLayoutTextView"
+            android:layout_centerInParent="true"
+            android:text="0.00"
+            android:textColor="@color/colorAccent"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_order_savings"
+            style="@style/RelativeLayoutTextView"
+            android:layout_below="@id/tv_order_total"
+            android:layout_centerHorizontal="true"
+            android:text="You will save 0.00 on this order"
+            android:textStyle="italic" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/colorPrimaryDark"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/button_order_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_rounded"
+            android:text="Apply Coupons and Offers"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextPrimary" />
+
+        <TextView
+            android:id="@+id/tv_subtotal_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/button_order_coupon"
+            android:text="Subtotal"
+            android:textColor="@color/colorTextSecondary" />
+
+        <TextView
+            android:id="@+id/tv_discount_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@+id/tv_subtotal_text"
+            android:text="Discount" />
+
+        <TextView
+            android:id="@+id/tv_delivery_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_discount_text"
+            android:text="Delivery charges" />
+
+        <TextView
+            android:id="@+id/tv_total_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_delivery_text"
+            android:text="Total"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_subtotal_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/button_order_coupon"
+            android:layout_alignParentRight="true"
+            android:text="0" />
+
+
+        <TextView
+            android:id="@+id/tv_discount_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_subtotal_amount"
+            android:layout_alignParentRight="true"
+            android:text="0"
+            android:textColor="#E4DD0738" />
+
+        <TextView
+            android:id="@+id/tv_delivery_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_discount_amount"
+            android:layout_alignParentRight="true"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/tv_total_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_alignBottom="@id/tv_total_text"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="0dp"
+            android:text="0"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/button_order_pay_online"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Pay Online"
+                android:textAllCaps="false"
+                android:textColor="@color/colorTextPrimary" />
+
+            <Button
+                android:id="@+id/button_order_pay_cash"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="1"
+
+                android:backgroundTint="@color/colorAccent"
+                android:text="Pay by Cash on Delivery"
+                android:textAllCaps="false"
+                android:textColor="@color/colorTextPrimary" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

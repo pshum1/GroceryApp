@@ -1,5 +1,6 @@
 package com.example.groceryapp.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -18,9 +19,10 @@ import com.android.volley.toolbox.Volley
 import com.example.groceryapp.R
 import com.example.groceryapp.adapters.AdapterCategories
 import com.example.groceryapp.app.Endpoints
+import com.example.groceryapp.helpers.SessionManager
 import com.example.groceryapp.models.CategoriesData
 import com.example.groceryapp.models.CategoriesResult
-import com.example.groceryapp.models.DumUser
+import com.example.groceryapp.models.User
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,17 +32,24 @@ import kotlinx.android.synthetic.main.nav_header.view.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    //Layouts for drawer
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
 
-    private var dumUser: DumUser? = null
+    lateinit var user: User
 
+    //Categories RecyclerView
     private var mList: ArrayList<CategoriesData> = ArrayList()
     private var adapterCategories: AdapterCategories? = null
+
+    //Session manager
+    lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        sessionManager = SessionManager(this)
 
         init()
     }
@@ -67,11 +76,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = drawer_layout
         navView = nav_view
 
-        dumUser = DumUser("Pierre", "pierre@gmail.com")
+        user = if(sessionManager.isLoggedIn()){
+            sessionManager.getUser()
+        } else {
+            User(firstName = "Guest", email = "")
+        }
 
         var headerView = navView.getHeaderView(0)
-        headerView.tv_header_name.text = dumUser?.name
-        headerView.tv_header_email.text = dumUser?.email
+        headerView.tv_header_name.text = user.firstName
+        headerView.tv_header_email.text = user.email
 
         var toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, 0, 0
@@ -126,9 +139,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var builder = AlertDialog.Builder(this)
         builder.setTitle("Logout")
         builder.setMessage("Are you sure you want to logout?")
-        builder.setPositiveButton("Yes" ){
-            dialogue, p1 -> //sessionManager.logout(), send -> LoginActivity
-        }
+        builder.setPositiveButton("Yes", object :DialogInterface.OnClickListener {
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                sessionManager.logout()
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
+            }
+
+        })
         builder.setNegativeButton(
             "No"
 //            object: DialogInterface.OnClickListener{

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.groceryapp.R
 import com.example.groceryapp.activities.AddressActivity
+import com.example.groceryapp.activities.ShoppingCartActivity
 import com.example.groceryapp.app.Config
 import com.example.groceryapp.databases.DBHelper
 import com.example.groceryapp.models.Products
@@ -19,7 +20,10 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_shopping_cart.view.*
 import kotlinx.android.synthetic.main.row_view_recycler_cart.view.*
 
-class AdapterCart(private var context: Context, private var list: ArrayList<Products>): RecyclerView.Adapter<AdapterCart.ViewHolder>(){
+class AdapterCart(private var context: Context, private var list: ArrayList<Products>) :
+    RecyclerView.Adapter<AdapterCart.ViewHolder>() {
+
+    val parentActivity = context as ShoppingCartActivity
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view = LayoutInflater.from(context).inflate(
@@ -41,14 +45,13 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
     }
 
 
-
     fun setData(l: ArrayList<Products>) {
         list = l
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(products: Products, position: Int){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(products: Products, position: Int) {
 
             var dbHelper = DBHelper(context)
 
@@ -60,17 +63,18 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
             itemView.tv_cart_price.text = "$${products.price}"
             itemView.tv_cart_quantity.text = quantity.toString()
 
-            //STRIKETHROUGH FOR MRP
+            //STRIKE THROUGH FOR MRP
             val str = "$${products.mrp}"
             val spannableString = SpannableString(str)
-            spannableString.setSpan(StrikethroughSpan(), 0, str.length,0)
+            spannableString.setSpan(StrikethroughSpan(), 0, str.length, 0)
             itemView.tv_cart_mrp.text = spannableString
 
             var imgURL = Config.IMAGE_URL + products.img
 
-            Picasso.get().load(imgURL).error(R.drawable.ic_baseline_broken_image_24).into(itemView.img_view_product)
+            Picasso.get().load(imgURL).error(R.drawable.ic_baseline_broken_image_24)
+                .into(itemView.img_view_product)
 
-            fun deleteItem(){
+            fun deleteItem() {
                 dbHelper.deleteProduct(products._id)
                 list.removeAt(position)
                 setData(list)
@@ -81,21 +85,19 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
                 deleteItem()
             }
 
-            itemView.button_quantity_add_cart.setOnClickListener{
-                var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
-                if(productsDB != null) {
-                    dbHelper.updateQuantityProduct(productsDB, true)
-                }
+            itemView.button_quantity_add_cart.setOnClickListener {
+                var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+                dbHelper.updateQuantityProduct(productsDB, true)
                 quantity++
                 itemView.tv_cart_quantity.text = quantity.toString()
+
             }
 
 
             itemView.button_quantity_subtract_cart.setOnClickListener {
-                if(quantity > 1){
-                    var productsDB = dbHelper.getRecordById(products._id) // RETRIEVES DATA FROM DB
-                    if(productsDB != null)
-                        dbHelper.updateQuantityProduct(productsDB, false)
+                if (quantity > 1) {
+                    var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+                    dbHelper.updateQuantityProduct(productsDB, false)
                     quantity--
                     itemView.tv_cart_quantity.text = quantity.toString()
                 } else {
