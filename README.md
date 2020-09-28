@@ -3,7 +3,7 @@
 
 Splash and Login Screen:
 
-[![Screenshot-1601311152.png](https://i.postimg.cc/fWvRHyp4/Screenshot-1601311152.png)](https://postimg.cc/SjJ4RSmV)    [![Screenshot-1601311157.png](https://i.postimg.cc/B66MdXph/Screenshot-1601311157.png)](https://postimg.cc/t1K36RLP)
+[![Screenshot-1601311152.png](https://i.postimg.cc/fWvRHyp4/Screenshot-1601311152.png)](https://postimg.cc/SjJ4RSmV)    [![Screenshot-1601314772.png](https://i.postimg.cc/j5LW77RY/Screenshot-1601314772.png)](https://postimg.cc/1n15x4gv)
 
 Landing page with Drawer:
 
