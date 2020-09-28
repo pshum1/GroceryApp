@@ -25,7 +25,7 @@
     <EditText
         android:id="@+id/et_login_email"
         style="@style/EditTextStyle"
-        android:hint="Username"
+        android:hint="Email"
         android:textSize="14dp" />
 
     <EditText
