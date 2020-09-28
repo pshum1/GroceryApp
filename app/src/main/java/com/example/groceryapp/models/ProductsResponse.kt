@@ -19,7 +19,7 @@ data class ProductData(
     val position: Int,
     val price: Double,
     val productName: String,
-    val quantity: Int,
+    var quantity: Int,
     val status: Boolean,
     val subId: Int,
     val unit: String
@@ -36,7 +36,7 @@ data class Products(
     val img: String,
     val mrp: Double,
     val price: Double,
-    val quantity: Int,
+    var quantity: Int,
 )
 
 data class Totals(

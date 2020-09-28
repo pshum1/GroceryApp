@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuItemCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.Request
@@ -19,6 +21,7 @@ import com.android.volley.toolbox.Volley
 import com.example.groceryapp.R
 import com.example.groceryapp.adapters.AdapterCategories
 import com.example.groceryapp.app.Endpoints
+import com.example.groceryapp.databases.DBHelper
 import com.example.groceryapp.helpers.SessionManager
 import com.example.groceryapp.models.CategoriesData
 import com.example.groceryapp.models.CategoriesResult
@@ -28,6 +31,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.layout_menu_cart.view.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -45,13 +49,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //Session manager
     lateinit var sessionManager: SessionManager
 
+    var textViewCartCount: TextView? = null
+    lateinit var dbHelper: DBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         sessionManager = SessionManager(this)
+        dbHelper = DBHelper(this)
 
         init()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        updateCartCount()
     }
 
     // INITIALIZE
@@ -76,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = drawer_layout
         navView = nav_view
 
-        user = if(sessionManager.isLoggedIn()){
+        user = if (sessionManager.isLoggedIn()) {
             sessionManager.getUser()
         } else {
             User(firstName = "Guest", email = "")
@@ -102,14 +115,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_cart, menu)
+
+        var item = menu.findItem(R.id.action_cart_custom)
+        MenuItemCompat.setActionView(item, R.layout.layout_menu_cart)
+        var view = MenuItemCompat.getActionView(item)
+        textViewCartCount = view.text_view_cart_count
+        updateCartCount()
+
+        view.setOnClickListener {
+            startActivity(Intent(this, ShoppingCartActivity::class.java))
+        }
         return true
+    }
+
+    private fun updateCartCount(){
+        var count = dbHelper.getQuantityTotal()
+        if(count == 0){
+            textViewCartCount?.visibility = View.GONE
+        } else {
+            textViewCartCount?.visibility = View.VISIBLE
+            textViewCartCount?.text = count.toString()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
+//            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
+//            R.id.action_cart_custom -> startActivity(Intent(this, ShoppingCartActivity::class.java))
         }
         return true
     }
@@ -120,7 +154,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.item_account -> Toast.makeText(this, "Account selected", Toast.LENGTH_SHORT).show()
             R.id.item_settings -> Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                 .show()
-            R.id.item_orders -> Toast.makeText(this, "Orders selected", Toast.LENGTH_SHORT).show()
+            R.id.item_orders -> startActivity(Intent(this, OrderHistoryActivity::class.java))
             R.id.item_Logout -> dialogueLogout()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -139,7 +173,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var builder = AlertDialog.Builder(this)
         builder.setTitle("Logout")
         builder.setMessage("Are you sure you want to logout?")
-        builder.setPositiveButton("Yes", object :DialogInterface.OnClickListener {
+        builder.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 sessionManager.logout()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
@@ -161,7 +195,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     //GET DATA
-    private fun getData(){
+    private fun getData() {
 
         var request = StringRequest(Request.Method.GET, Endpoints.getCategory(), {
 //            var gson = Gson()

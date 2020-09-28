@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.MenuItemCompat
 import com.example.groceryapp.R
 import com.example.groceryapp.app.Config
 import com.example.groceryapp.databases.DBHelper
@@ -17,6 +19,7 @@ import com.example.groceryapp.models.Products
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.layout_menu_cart.view.*
 import kotlinx.android.synthetic.main.row_view_recycler_product.view.*
 
 class ProductDetailActivity : AppCompatActivity() {
@@ -24,6 +27,8 @@ class ProductDetailActivity : AppCompatActivity() {
     //DECLARE GLOBAL VARIABLES
 
     private lateinit var dbHelper: DBHelper
+
+    var textViewCartCount: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,24 +42,50 @@ class ProductDetailActivity : AppCompatActivity() {
         init(products)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        updateCartCount()
+    }
+
     private fun setupToolbar() {
         var toolbar = toolbar
         toolbar.title = "Grocery App"
         setSupportActionBar(toolbar)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_cart, menu)
+
+        var item = menu.findItem(R.id.action_cart_custom)
+        MenuItemCompat.setActionView(item, R.layout.layout_menu_cart)
+        var view = MenuItemCompat.getActionView(item)
+        textViewCartCount = view.text_view_cart_count
+        updateCartCount()
+
+        view.setOnClickListener {
+            startActivity(Intent(this, ShoppingCartActivity::class.java))
+            finish()
+        }
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_cart -> {
-                startActivity(Intent(this, ShoppingCartActivity::class.java))
-                finish()
-            }
+    private fun updateCartCount() {
+        var count = dbHelper.getQuantityTotal()
+        if(count == 0){
+            textViewCartCount?.visibility = View.GONE
+        } else {
+            textViewCartCount?.visibility = View.VISIBLE
+            textViewCartCount?.text = count.toString()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.action_cart -> {
+//                startActivity(Intent(this, ShoppingCartActivity::class.java))
+//                finish()
+//            }
+//        }
         return true
     }
 
@@ -101,6 +132,7 @@ class ProductDetailActivity : AppCompatActivity() {
             button_product_add.visibility = View.GONE
             layout_quantity.visibility = View.VISIBLE
             tv_in_cart.visibility = View.VISIBLE
+            updateCartCount()
         }
 
         //LINEAR LAYOUT TO ADD OR REMOVE ITEMS
@@ -109,6 +141,7 @@ class ProductDetailActivity : AppCompatActivity() {
             dbHelper.updateQuantityProduct(productsDB, true)
             tv_product_detail_quantity.text =
                 "${tv_product_detail_quantity.text.toString().toInt() + 1}"
+            updateCartCount()
         }
 
         button_quantity_subtract.setOnClickListener {
@@ -125,6 +158,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 tv_in_cart.visibility = View.GONE
                 button_product_add.visibility = View.VISIBLE
             }
+            updateCartCount()
         }
 
     }

@@ -64,18 +64,24 @@ class ShoppingCartActivity : AppCompatActivity() {
     }
 
     fun calcAndSetTotals() {
-        var subtotal = 0.0
-        var discount = 0.0
-        var total: Double
-        for(i in 0 until mList.size){
-            subtotal += mList[i].mrp * mList[i].quantity
-            discount += (mList[i].mrp - mList[i].price) * mList[i].quantity
-        }
-        total = subtotal-discount
+        if(mList.isNullOrEmpty()){
+            recycler_view_cart.visibility = View.GONE
+            tv_no_cart_items.visibility = View.VISIBLE
+            tv_subtotal_amount.text = "$0.0"
+            tv_discount_amount.text = "$0.0"
+            tv_total_amount.text = "$0.0"
+        }else{
+            var totals = dbHelper.getOrderSummary()
+            var subtotal = totals.mrp
+            var discount = totals.discount
+            var totalAmount = totals.total
 
-        tv_subtotal_amount.text = "$$subtotal"
-        tv_discount_amount.text = "-$$discount"
-        tv_total_amount.text = "$$total"
-        Log.d("totals", "$subtotal sub $discount dis $total total")
+
+            tv_subtotal_amount.text = "$$subtotal"
+            tv_discount_amount.text = "-$$discount"
+            tv_total_amount.text = "$$totalAmount"
+            //Log.d("totals", "$subtotal sub $discount dis $total total")
+        }
+
     }
 }

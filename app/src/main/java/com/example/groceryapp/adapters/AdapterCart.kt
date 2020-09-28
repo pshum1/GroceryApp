@@ -77,33 +77,41 @@ class AdapterCart(private var context: Context, private var list: ArrayList<Prod
             fun deleteItem() {
                 dbHelper.deleteProduct(products._id)
                 list.removeAt(position)
-                setData(list)
+                notifyItemRemoved(position)
+                //setData(list)
             }
 
             //ONCLICK FUNCTIONS
             itemView.button_delete_cart.setOnClickListener {
                 deleteItem()
+
             }
 
             itemView.button_quantity_add_cart.setOnClickListener {
-                var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
-                dbHelper.updateQuantityProduct(productsDB, true)
-                quantity++
-                itemView.tv_cart_quantity.text = quantity.toString()
+               // var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+                dbHelper.updateQuantityProduct(products, true)
+                notifyItemChanged(list.indexOf(products))
+                products.quantity+=1
+                parentActivity.calcAndSetTotals()
+//                quantity++
+//                itemView.tv_cart_quantity.text = quantity.toString()
 
             }
 
 
             itemView.button_quantity_subtract_cart.setOnClickListener {
                 if (quantity > 1) {
-                    var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
-                    dbHelper.updateQuantityProduct(productsDB, false)
-                    quantity--
-                    itemView.tv_cart_quantity.text = quantity.toString()
+                    //var productsDB = dbHelper.getRecord(products._id) // RETRIEVES DATA FROM DB
+                    dbHelper.updateQuantityProduct(products, false)
+                    notifyItemChanged(position)
+                    products.quantity -= 1
+                    //quantity--
+                    //itemView.tv_cart_quantity.text = quantity.toString()
                 } else {
                     deleteItem()
 
                 }
+                parentActivity.calcAndSetTotals()
             }
 
 

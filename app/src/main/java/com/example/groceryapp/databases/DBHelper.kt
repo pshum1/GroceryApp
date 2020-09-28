@@ -183,6 +183,23 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return productList
     }
 
+    fun getQuantityTotal(): Int{
+        var quantity = 0
+        var columns = arrayOf(
+            COLUMN_QUANTITY,
+        )
+        var cursor = dbHelper.query(TABLE_NAME, columns, null, null, null, null, null)
+        if(cursor != null && cursor.moveToFirst()) {
+            do {
+
+                quantity += cursor.getInt(cursor.getColumnIndex(COLUMN_QUANTITY))
+
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return quantity
+    }
+
     fun getOrderSummary(): OrderSummary{
         var mrp = 0.0
         var total = 0.0

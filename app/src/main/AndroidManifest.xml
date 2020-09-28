@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.OrderHistoryActivity"></activity>
+        <activity android:name=".activities.OrderHistoryDetailActivity"></activity>
+        <activity android:name=".activities.OrderHistoryActivity" />
         <activity android:name=".activities.OrderCompletedActivity" />
         <activity android:name=".activities.OrderActivity" />
         <activity android:name=".activities.RegisterActivity" />

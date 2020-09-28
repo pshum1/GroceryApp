@@ -7,12 +7,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.MenuItemCompat
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.groceryapp.R
 import com.example.groceryapp.adapters.AdapterTabViewPager
+import com.example.groceryapp.databases.DBHelper
 import com.example.groceryapp.models.CategoriesData
 import com.example.groceryapp.models.CategoriesResult
 import com.example.groceryapp.models.SubCatData
@@ -22,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_sub_category.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.fragment_product.*
+import kotlinx.android.synthetic.main.layout_menu_cart.view.*
 
 class SubCategoryActivity : AppCompatActivity() {
 
@@ -29,15 +33,24 @@ class SubCategoryActivity : AppCompatActivity() {
     var mList: ArrayList<SubCatData> = ArrayList()
     var subCatAdapter: AdapterTabViewPager? = null
 
+    var textViewCartCount: TextView? = null
+    lateinit var dbHelper: DBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub_category)
 
         category = intent.getSerializableExtra(CategoriesData.KEY_CATEGORY) as CategoriesData
+        dbHelper = DBHelper(this)
 
         var url = "https://grocery-second-app.herokuapp.com/api/subcategory/${category?.catId}"
 
         init(url)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        updateCartCount()
     }
 
     private fun init(url:String) {
@@ -57,15 +70,35 @@ class SubCategoryActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_cart, menu)
+
+        var item = menu.findItem(R.id.action_cart_custom)
+        MenuItemCompat.setActionView(item, R.layout.layout_menu_cart)
+        var view = MenuItemCompat.getActionView(item)
+        textViewCartCount = view.text_view_cart_count
+        updateCartCount()
+
+        view.setOnClickListener {
+            startActivity(Intent(this, ShoppingCartActivity::class.java))
+        }
         return true
+    }
+
+    private fun updateCartCount(){
+        var count = dbHelper.getQuantityTotal()
+        if(count == 0){
+            textViewCartCount?.visibility = View.GONE
+        } else {
+            textViewCartCount?.visibility = View.VISIBLE
+            textViewCartCount?.text = count.toString()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             android.R.id.home -> finish()
-            R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
+            //R.id.action_cart -> startActivity(Intent(this, ShoppingCartActivity::class.java))
         }
         return true
     }

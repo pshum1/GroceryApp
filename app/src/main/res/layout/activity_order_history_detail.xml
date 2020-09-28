@@ -1,0 +1,146 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="5">
+
+    <include layout="@layout/app_bar" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_order_sum"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_total_text_order"
+            style="@style/RelativeLayoutTextView"
+            android:layout_above="@id/tv_order_total"
+            android:layout_centerInParent="true"
+            android:text="Total:"
+
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/tv_order_total"
+            style="@style/RelativeLayoutTextView"
+            android:layout_centerInParent="true"
+            android:text="0.00"
+            android:textColor="@color/colorAccent"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/colorPrimaryDark"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_subtotal_text"
+            style="@style/OrderTotalsTextView"
+            android:text="Subtotal"
+            android:textColor="@color/colorTextSecondary" />
+
+        <TextView
+            android:id="@+id/tv_discount_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@+id/tv_subtotal_text"
+            android:text="Discount" />
+
+        <TextView
+            android:id="@+id/tv_delivery_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_discount_text"
+            android:text="Delivery charges" />
+
+        <TextView
+            android:id="@+id/tv_total_text"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_delivery_text"
+            android:text="Total"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_subtotal_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_alignParentRight="true"
+            android:text="0" />
+
+
+        <TextView
+            android:id="@+id/tv_discount_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_subtotal_amount"
+            android:layout_alignParentRight="true"
+            android:text="0"
+            android:textColor="#E4DD0738" />
+
+        <TextView
+            android:id="@+id/tv_delivery_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_below="@id/tv_discount_amount"
+            android:layout_alignParentRight="true"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/tv_total_amount"
+            style="@style/OrderTotalsTextView"
+            android:layout_alignBottom="@id/tv_total_text"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="0dp"
+            android:text="0"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_total_amount"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/colorTextSecondary" />
+
+            <TextView
+                style="@style/RelativeLayoutTextView"
+                android:text="Delivered To:"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_house_no_street_name"
+                style="@style/OrderTotalsTextView"
+                android:layout_marginTop="16dp"
+                android:text="124, Sample Street Address" />
+
+            <TextView
+                android:id="@+id/tv_address_city_pincode"
+                style="@style/OrderTotalsTextView" />
+
+
+            <TextView
+                android:id="@+id/tv_history_date"
+                style="@style/RelativeLayoutTextView"
+                android:layout_marginTop="35dp"
+                android:text="date" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>
